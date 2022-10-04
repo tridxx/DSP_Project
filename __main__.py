@@ -34,21 +34,26 @@ def fft_recurrence(x):
                            x_even + factor[int(n / 2):] * x_odd])
 
 
-t1 = np.linspace(0, 5 * np.pi, 200)  # 时间坐标
-x1 = np.sin(2 * np.pi * t1)  # 正弦函数
-h_mel = [0]
-# 输入x,然后进行分帧，分成x[i]
-num_frame = 1
-s_x = np.zeros(num_frame)
-num_melfilter = 10
-for i in range(len(x1)):
-    s_x[i] = fft_recurrence(x1[i])  # 求fft变换
+def main():
+    t1 = np.linspace(0, 5 * np.pi, 200)  # 时间坐标
+    x1 = np.sin(2 * np.pi * t1)  # 正弦函数
+    h_mel = [0]
+    # 输入x,然后进行分帧，分成x[i]
+    num_frame = 1
+    s_x = np.zeros(num_frame)
+    num_melfilter = 10
+    for i in range(len(x1)):
+        s_x[i] = fft_recurrence(x1[i])  # 求fft变换
 
-s1_x = np.zeros((num_frame, num_melfilter))
-mfcc_x = np.zeros(num_frame)
+    s1_x = np.zeros((num_frame, num_melfilter))
+    mfcc_x = np.zeros(num_frame)
 
-for i in range(num_frame):
-    s1_x[i] = energy_cal(s_x[i], num_melfilter, h_mel)
-    mfcc_x[i] = mfcc_cal(s1_x[i], num_melfilter, 12)
+    for i in range(num_frame):
+        s1_x[i] = energy_cal(s_x[i], num_melfilter, h_mel)
+        mfcc_x[i] = mfcc_cal(s1_x[i], num_melfilter, 12)
 
-print(mfcc_x)  # 输出
+    print(mfcc_x)  # 输出
+
+
+if __name__ == '__main__':
+    main()
